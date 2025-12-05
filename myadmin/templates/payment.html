@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payment Options</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+}
+.container {
+    background: #fff;
+    padding: 25px;
+    max-width: 550px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+h2 {
+    text-align: center;
+    color: #00796b;
+}
+p {
+    text-align: center;
+    font-size: 15px;
+    color: #444;
+}
+.payment-options {
+    margin-top: 25px;
+}
+.option {
+    display: flex;
+    align-items: center;
+    background: #fafafa;
+    padding: 15px 20px;
+    margin: 12px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+.option:hover {
+    border: 2px solid #00796b;
+    background: #e0f2f1;
+}
+.option input {
+    margin-right: 15px;
+}
+.option label {
+    font-size: 16px;
+    color: #333;
+    flex-grow: 1;
+}
+.btn {
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    background: #00796b;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.btn:hover {
+    background: #005f56;
+}
+.back-btn {
+    background: #555;
+    margin-top: 10px;
+}
+.back-btn:hover {
+    background: #333;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Select Payment Method</h2>
+    <p>Please choose your preferred payment option to continue.</p>
+
+    <form method="POST" action="{% url 'razorpay_success' %}">
+        {% csrf_token %}
+        <div class="payment-options">
+            <div class="option">
+                <input type="radio" id="card" name="payment_method" value="card" required>
+                <label for="card">💳 Credit / Debit Card</label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="wallet" name="payment_method" value="wallet">
+                <label for="wallet">👛 Wallet Payment (Paytm / PhonePe)</label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="upi" name="payment_method" value="upi">
+                <label for="upi">📱 UPI Payment (Google Pay / BHIM / Others)</label>
+            </div>
+        </div>
+
+        <button class="btn" type="submit">Proceed to Pay</button>
+        <button class="btn back-btn" type="button" onclick="window.history.back()">Back</button>
+    </form>
+</div>
+
+</body>
+</html>

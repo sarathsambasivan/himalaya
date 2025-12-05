@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Success & Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .invoice-box {
+            background: #fff;
+            max-width: 750px;
+            margin: auto;
+            padding: 25px;
+            border: 1px solid #ddd;
+            box-shadow: 0px 0px 10px #ccc;
+            border-radius: 8px;
+        }
+
+        h1.success-title {
+            text-align: center;
+            color: green;
+            margin-top: 0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 26px;
+            color: #333;
+        }
+
+        .session-id {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 25px;
+            border-left: 4px solid #007bff;
+            padding-left: 10px;
+            color: #444;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        td, th {
+            padding: 10px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .total-row {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: right;
+            padding: 10px;
+            margin-top: 10px;
+            color: #222;
+        }
+
+        .footer-note {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* Purchase History Table */
+        .history-box {
+            background: #fff;
+            max-width: 750px;
+            margin: 30px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 8px #ddd;
+            border-radius: 8px;
+        }
+
+        .history-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+
+<!-- SUCCESS MESSAGE -->
+<h1 class="success-title">🎉 Payment Successful!</h1>
+
+
+<!-- INVOICE BOX -->
+<div class="invoice-box">
+
+    <div class="header">
+        <h2>ORDER INVOICE</h2>
+        <p class="session-id"><strong>Session ID:</strong> {{ session_id }}</p>
+    </div>
+
+    <!-- CUSTOMER DETAILS -->
+    <div class="section-title">Customer Information</div>
+    <table>
+        <tr>
+            <td><strong>Name</strong></td>
+            <td>{{ customer.user.first_name }}</td>
+        </tr>
+        <tr>
+            <td><strong>Email</strong></td>
+            <td>{{ customer.user.email }}</td>
+        </tr>
+        <tr>
+            <td><strong>Phone</strong></td>
+            <td>{{ customer.mobile_number }}</td>
+        </tr>
+        <tr>
+            <td><strong>Alternate Phone</strong></td>
+            <td>{{ latest_order.alt_mobile }}</td>
+        </tr>
+    </table>
+
+    <!-- PRODUCT DETAILS -->
+    <div class="section-title">Product Details</div>
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+<!--            <th>Amount (₹)</th>-->
+        </tr>
+        <tr>
+            <td>{{ latest_order.product.product_name }}</td>
+            <td>{{ latest_order.total_quantity }}</td>
+            <td>{{ latest_order.price }}</td>
+<!--            <td>₹{{ latest_order.total_amount }}</td>-->
+        </tr>
+    </table>
+
+    <!-- TOTAL -->
+    <p class="total-row">Total Amount: ₹{{ latest_order.total_amount }}</p>
+
+    <div class="footer-note">
+        Thank you for your purchase! A copy of your invoice has been emailed to you.
+    </div>
+
+</div>
+
+
+
+<!-- PURCHASE HISTORY -->
+{% if all_orders %}
+<div class="history-box">
+    <div class="history-title">Your Previous Orders</div>
+
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Base Price</th>
+            <th>Qty</th>
+            <th>Total (₹)</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+
+        {% for order in all_orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.product.product_name }}</td>
+            <td>₹{{ order.price }}</td>
+            <td>{{ order.total_quantity }}</td>
+            <td>₹{{ order.total_amount }}</td>
+            <td>{{ order.payment_status }}</td>
+            <td>{{ order.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+</body>
+</html>

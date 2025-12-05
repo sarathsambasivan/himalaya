@@ -1,0 +1,330 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - Edit Customer</title>
+
+  <!-- ✅ Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ===== Reset ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background-color: #f4f7f8;
+      color: #333;
+    }
+
+    /* ===== Sidebar ===== */
+    .sidebar {
+      width: 250px;
+      background-color: #2b7a78;
+      color: #fff;
+      transition: width 0.3s ease;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .sidebar.collapsed {
+      width: 70px;
+    }
+
+    .sidebar h2 {
+      padding: 20px;
+      font-size: 22px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar ul li a {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar ul li a:hover {
+      background-color: #3aafa9;
+      padding-left: 25px;
+    }
+
+    .sidebar ul li i {
+      margin-right: 10px;
+    }
+
+    .sidebar.collapsed ul li span {
+      display: none;
+    }
+
+    /* ===== Dropdown Menu ===== */
+    .submenu {
+      display: none;
+      background: #357e7a;
+      list-style: none;
+    }
+
+    .submenu li a {
+      padding-left: 40px;
+      font-size: 14px;
+    }
+
+    .dropdown.open > .submenu {
+      display: block;
+    }
+
+    .submenu li a:hover {
+      background-color: #49b3ac;
+    }
+
+    /* ===== Main Section ===== */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== Topbar ===== */
+    .topbar {
+      background-color: #3aafa9;
+      color: white;
+      padding: 15px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .menu-toggle {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .topbar h1 {
+      flex: 1;
+      text-align: center;
+      font-size: 22px;
+    }
+
+    /* ===== Form Container ===== */
+    .form-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: #2b7a78;
+      margin-bottom: 25px;
+    }
+
+    form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    form input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      transition: border 0.3s ease;
+    }
+
+    form input:focus {
+      outline: none;
+      border-color: #3aafa9;
+      box-shadow: 0 0 4px rgba(58,175,169,0.4);
+    }
+
+    form button {
+      margin-top: 25px;
+      width: 100%;
+      background-color: #3aafa9;
+      border: none;
+      padding: 12px;
+      color: white;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #2b7a78;
+    }
+
+    .delete-btn {
+      background-color: #dc3545 !important;
+      margin-top: 15px;
+    }
+
+    .delete-btn:hover {
+      background-color: #b02a37 !important;
+    }
+
+    /* ===== Content Footer ===== */
+    .content {
+      text-align: center;
+      margin-top: auto;
+      padding: 20px;
+      background-color: #f4f7f8;
+      color: #555;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        z-index: 999;
+        height: 100vh;
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main {
+        flex: 1;
+      }
+
+      .form-container {
+        width: 90%;
+        margin: 20px auto;
+        padding: 25px;
+      }
+
+      .topbar h1 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== Sidebar ===== -->
+  <div class="sidebar" id="sidebar">
+    <h2>Dashboard</h2>
+    <ul>
+      <li><a href="{% url 'admin_home' %}"><i class="fa fa-home"></i><span>Home</span></a></li>
+
+      <li class="dropdown">
+        <a href="javascript:void(0);" onclick="toggleDropdown(this)">
+          <i class="fa fa-user"></i> <span>Customers</span>
+          <i class="fa fa-caret-down" style="margin-left:auto;"></i>
+        </a>
+        <ul class="submenu">
+          <li><a href="{% url 'customer_detail' %}">All Customers</a></li>
+          <li><a href="{% url 'admin_home' %}">Add Customer</a></li>
+          <li><a href="{% url 'admin_home' %}">Customer Reports</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="javascript:void(0);" onclick="toggleDropdown(this)">
+          <i class="fa fa-box"></i> <span>Products</span>
+          <i class="fa fa-caret-down" style="margin-left:auto;"></i>
+        </a>
+        <ul class="submenu">
+          <li><a href="{% url 'admin_home' %}">All Products</a></li>
+          <li><a href="{% url 'admin_home' %}">Add Product</a></li>
+          <li><a href="{% url 'admin_home' %}">Categories</a></li>
+        </ul>
+      </li>
+
+      <li><a href="#"><i class="fa fa-chart-line"></i><span>Reports</span></a></li>
+    </ul>
+  </div>
+
+  <!-- ===== Main Content ===== -->
+  <div class="main">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <i class="fa fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+      <h1>Edit Customer Profile</h1>
+    </div>
+
+    <!-- Form Section -->
+    <div class="form-container">
+
+      <form method="post">
+        {% csrf_token %}
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" name="first_name" value="{{ customer.user.first_name }}" required>
+
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" name="last_name" value="{{ customer.user.last_name }}" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ customer.user.email }}" required>
+
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" name="phone" value="{{ customer.mobile_number }}" readonly>
+
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" value="{{ customer.age }}">
+
+        <button type="submit">Update Profile</button>
+      </form>
+
+      <!-- Delete Customer -->
+      <form method="post" action="{% url 'customer_delete' customer.id %}" onsubmit="return confirm('Are you sure you want to delete this customer?');">
+        {% csrf_token %}
+        <button type="submit" class="delete-btn">Delete Customer</button>
+      </form>
+
+
+    </div>
+
+    <!-- Footer -->
+
+  </div>
+
+  <!-- ===== JavaScript ===== -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      if (window.innerWidth <= 768) {
+        sidebar.classList.toggle('active');
+      } else {
+        sidebar.classList.toggle('collapsed');
+      }
+    }
+
+    function toggleDropdown(el) {
+      const parent = el.parentElement;
+      parent.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Our Products – Himalaya Hair Oil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #ffffff 0%, #d9f5db 100%);
+      color: #2f4f2f;
+    }
+
+    header {
+      background-color: #2fbf71;
+      color: #ffffff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    .logo {
+      height: 100px;
+    }
+
+    nav {
+      background-color: #27a35f;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 15px 25px;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      background-color: #1e804c;
+    }
+
+    nav a.active {
+      background-color: #1e804c;
+      border-radius: 5px;
+    }
+
+    .product-section {
+      padding: 50px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .product-section h2 {
+      text-align: center;
+      color: #1e804c;
+      font-size: 2em;
+      margin-bottom: 40px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      background-color: #ffffff;
+      border: 1px solid #c5ebc5;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-card img {
+      display: block;
+      margin: 0 auto;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .product-card h3 {
+      margin: 10px 0;
+      font-size: 1.2em;
+      color: #2f4f2f;
+    }
+
+    .product-card p {
+      font-size: 0.95em;
+      color: #555;
+      min-height: 60px;
+    }
+
+    .product-card .price {
+      color: #27a35f;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .product-card .buy-btn {
+      background-color: #27a35f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .product-card .buy-btn:hover {
+      background-color: #1e804c;
+    }
+
+    .no-products {
+      text-align: center;
+      font-size: 18px;
+      color: #777;
+      margin-top: 50px;
+    }
+
+    footer {
+      background-color: #2fbf71;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Himalaya Hair Oil</h1>
+    <img src="{% static 'image/logo.png' %}" alt="Himalaya Logo" class="logo">
+  </header>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="{% url 'benefits' %}">Benefits</a>
+    <a href="{% url 'signup' %}">Sign Up</a>
+    <a href="{% url 'products' %}" class="active">Products</a>
+
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contactus' %}">Contact</a>
+  </nav>
+
+  <section class="product-section">
+    <h2>Our Hair Oil Products</h2>
+
+    {% if products %}
+      <div class="product-grid">
+        {% for product in products %}
+          <div class="product-card">
+            {% if product.image %}
+              <img src="{{ product.image.url }}" alt="{{ product.product_name }}">
+            {% else %}
+              <img src="https://via.placeholder.com/250x200?text=No+Image" alt="No Image">
+            {% endif %}
+            <h3>{{ product.product_name }}</h3>
+            <p>{{ product.description|truncatechars:100 }}</p>
+            <div class="price">₹{{ product.price }}</div>
+            <a href="#" class="buy-btn">Buy Now</a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="no-products">No Products Found.</div>
+    {% endif %}
+  </section>
+
+  <footer>
+    &copy; 2025 Himalaya Hair Oil | All rights reserved.
+  </footer>
+</body>
+</html>

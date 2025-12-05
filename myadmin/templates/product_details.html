@@ -1,0 +1,348 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+
+  <!-- ✅ Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    /* === RESET === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background: #f7f9fb;
+    }
+
+    /* === SIDEBAR === */
+    .sidebar {
+      width: 250px;
+      background: #2b7a78;
+      color: white;
+      transition: width 0.3s ease;
+      overflow: hidden;
+    }
+
+    .sidebar.collapsed {
+      width: 70px;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      background: #204f4e;
+      padding: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      text-decoration: none;
+      padding: 14px 20px;
+      transition: 0.3s;
+    }
+
+    .sidebar ul li a:hover {
+      background: #3aafa9;
+    }
+
+    .sidebar.collapsed ul li span {
+      display: none;
+    }
+
+    .submenu {
+      display: none;
+      background: #226d6b;
+      padding-left: 20px;
+    }
+
+    .dropdown.open .submenu {
+      display: block;
+    }
+
+    /* === MAIN === */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* === HEADER / TOPBAR === */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #3aafa9;
+      color: white;
+      padding: 15px 25px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .topbar h1 {
+      font-size: 22px;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .menu-toggle {
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    /* === CONTENT === */
+    .content {
+      padding: 25px 35px;
+      flex: 1;
+    }
+
+    .content h2 {
+      font-size: 26px;
+      color: #17252a;
+      margin-bottom: 20px;
+      text-align: left;
+      border-bottom: 2px solid #3aafa9;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    /* === MESSAGES === */
+    .messages {
+      background-color: #dff0d8;
+      color: #3c763d;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin: 15px auto;
+      width: 80%;
+      text-align: center;
+    }
+
+    /* === PRODUCT GRID === */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+    }
+
+   .product-card img {
+  display: block;
+  margin: 0 auto;  /* centers horizontally */
+  height: 200px;
+  object-fit: cover;
+  /*border-bottom: 2px solid #f1f1f1;*/
+}
+
+
+    .product-content {
+      padding: 15px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #17252a;
+      margin-bottom: 8px;
+    }
+
+    .product-info {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 5px;
+      line-height: 1.5;
+    }
+
+    .edit-btn {
+      align-self: start;
+      margin-top: 10px;
+      background: #3aafa9;
+      color: white;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .edit-btn:hover {
+      background: #2b7a78;
+    }
+
+    .no-products {
+      text-align: center;
+      font-size: 18px;
+      color: #777;
+      margin-top: 50px;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        z-index: 1000;
+        left: -100%;
+        height: 100%;
+        transition: left 0.3s ease;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .main {
+        flex: 1;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .menu-toggle {
+        z-index: 1001;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="{% url 'admin_home' %}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+
+      <li class="dropdown">
+        <a href="javascript:void(0);" onclick="toggleDropdown(this)">
+          <i class="fa fa-user"></i> <span>Customers</span>
+          <i class="fa fa-caret-down" style="margin-left:auto;"></i>
+        </a>
+        <ul class="submenu">
+          <li><a href="{% url 'customer_detail' %}">All Customers</a></li>
+          <li><a href="{% url 'admin_home' %}">Add Customer</a></li>
+          <li><a href="{% url 'admin_home' %}">Customer Reports</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="javascript:void(0);" onclick="toggleDropdown(this)">
+          <i class="fa fa-box"></i> <span>Products</span>
+          <i class="fa fa-caret-down" style="margin-left:auto;"></i>
+        </a>
+        <ul class="submenu">
+          <li><a href="{% url 'product_details' %}">All Products</a></li>
+          <li><a href="{% url 'add_product' %}">Add Product</a></li>
+          <li><a href="{% url 'admin_home' %}">Categories</a></li>
+        </ul>
+      </li>
+
+      <li><a href="#"><i class="fa fa-chart-line"></i> <span>Reports</span></a></li>
+    </ul>
+  </div>
+
+  <!-- ✅ Main Area -->
+  <div class="main">
+    <div class="topbar">
+      <i class="fa fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+<!--      <h1>Product Management</h1>-->
+    </div>
+
+    <div class="content">
+      <h2>All Products</h2>
+
+      {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if products %}
+        <div class="product-grid">
+          {% for product in products %}
+            <div class="product-card">
+              <div class="product-image">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="{{ product.product_name }}">
+                {% else %}
+                  <img src="https://via.placeholder.com/250x200?text=No+Image" alt="No Image">
+                {% endif %}
+              </div>
+
+              <div class="product-content">
+                <div>
+                  <div class="product-name">{{ product.product_name }}</div>
+                  <div class="product-info">{{ product.description|truncatechars:100 }}</div>
+                  <div class="product-info"><strong>Price:</strong> ${{ product.price }}</div>
+                  <div class="product-info"><strong>Stock:</strong> {{ product.stock }}</div>
+                  <div class="product-info"><strong>Available:</strong> {{ product.available|yesno:"Yes,No" }}</div>
+                </div>
+                <a href="{% url 'edit_product' product.id %}" class="edit-btn">Edit</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="no-products">No Products Found.</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ✅ JS -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      if (window.innerWidth <= 768) {
+        sidebar.classList.toggle('active');
+      } else {
+        sidebar.classList.toggle('collapsed');
+      }
+    }
+
+    function toggleDropdown(el) {
+      const parent = el.parentElement;
+      parent.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>

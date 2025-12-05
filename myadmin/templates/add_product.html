@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+
+  <!-- ✅ Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ========== GLOBAL STYLES ========== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background: #f5f5f5;
+    }
+
+    /* ========== SIDEBAR ========== */
+    .sidebar {
+      width: 250px;
+      background-color: #2b7a78;
+      color: white;
+      transition: width 0.3s ease;
+      overflow: hidden;
+    }
+
+    .sidebar.collapsed {
+      width: 60px;
+    }
+
+    .sidebar h2 {
+      padding: 20px;
+      font-size: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar ul li i {
+      margin-right: 10px;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #3aafa9;
+      color: #fff;
+    }
+
+    .sidebar.collapsed ul li span {
+      display: none;
+    }
+
+    /* Dropdown Menu */
+    .sidebar ul .submenu {
+      display: none;
+      list-style: none;
+      padding-left: 20px;
+      background-color: #2b7a78;
+    }
+
+    .sidebar ul .submenu li {
+      padding: 10px 0 10px 10px;
+    }
+
+    .sidebar ul li.dropdown.open > .submenu {
+      display: block;
+    }
+
+    .sidebar ul .submenu li a:hover {
+      background-color: #2e9894;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background-color: #3aafa9;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .menu-toggle {
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    /* ========== FORM STYLING ========== */
+    .form-container {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin: 30px auto;
+    }
+
+    .form-container h1 {
+      text-align: center;
+      color: #2b7a78;
+      margin-bottom: 25px;
+    }
+
+    .form-container label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .form-container input,
+    .form-container textarea,
+    .form-container select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-container input:focus,
+    .form-container textarea:focus,
+    .form-container select:focus {
+      border-color: #3aafa9;
+    }
+
+    .form-container button {
+      width: 100%;
+      background-color: #2b7a78;
+      color: white;
+      border: none;
+      padding: 12px;
+      margin-top: 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background-color: #3aafa9;
+    }
+
+    /* ========== CONTENT AREA ========== */
+    .content {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .content h1 {
+      color: #2b7a78;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        z-index: 999;
+        height: 100vh;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .sidebar.collapsed {
+        width: 250px;
+      }
+
+      .topbar {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <h2>Dashboard</h2>
+    <ul>
+      <li><a href="{% url 'admin_home' %}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+
+      <li class="dropdown">
+        <a href="javascript:void(0);" onclick="toggleDropdown(this)">
+          <i class="fa fa-user"></i> <span>Customers</span>
+          <i class="fa fa-caret-down" style="margin-left:auto;"></i>
+        </a>
+        <ul class="submenu">
+          <li><a href="{% url 'customer_detail' %}">All Customers</a></li>
+          <li><a href="{% url 'admin_home' %}">Add Customer</a></li>
+          <li><a href="{% url 'admin_home' %}">Customer Reports</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="javascript:void(0);" onclick="toggleDropdown(this)">
+          <i class="fa fa-box"></i> <span>Products</span>
+          <i class="fa fa-caret-down" style="margin-left:auto;"></i>
+        </a>
+        <ul class="submenu">
+          <li><a href="{% url 'product_details' %}">All Products</a></li>
+          <li><a href="{% url 'add_product' %}">Add Product</a></li>
+          <li><a href="{% url 'admin_home' %}">Categories</a></li>
+        </ul>
+      </li>
+
+      <li><a href="#"><i class="fa fa-chart-line"></i> <span>Reports</span></a></li>
+    </ul>
+  </div>
+
+  <!-- ✅ MAIN CONTENT -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <i class="fa fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+      <h1>Add New Product</h1>
+    </div>
+
+    <!-- Add Product Form -->
+    <div class="form-container">
+      <form action="{% url 'add_product' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="product_name">Product Name:</label>
+        <input type="text" id="product_name" name="product_name" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" required>
+
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" name="stock" required>
+
+        <label for="image">Image Upload:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+
+        <label for="available">Availability:</label>
+        <select id="available" name="available" required>
+          <option value="">-- Select --</option>
+          <option value="True">Yes</option>
+          <option value="False">No</option>
+        </select>
+
+        <button type="submit">Submit Product</button>
+      </form>
+    </div>
+
+
+  </div>
+
+  <!-- ✅ JAVASCRIPT -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      if (window.innerWidth <= 768) {
+        sidebar.classList.toggle('active');
+      } else {
+        sidebar.classList.toggle('collapsed');
+      }
+    }
+
+    function toggleDropdown(el) {
+      const parent = el.parentElement;
+      parent.classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>

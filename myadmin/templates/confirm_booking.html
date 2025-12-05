@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Confirm Booking</title>
+<style>
+body { font-family: Arial; padding:20px; background:#f4f4f4; }
+.box { background:white; padding:20px; border-radius:8px; max-width:500px; margin:auto; }
+.btn { padding:10px; display:inline-block; width:48%; border:none; cursor:pointer; font-size:16px; border-radius:6px; }
+.confirm { background:#00796b; color:white; }
+.back { background:#555; color:white; }
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>Confirm Booking</h2>
+
+<p><b>Product:</b> {{ booking.product_name }}</p>
+<p><b>Quantity:</b> {{ booking.qty }}</p>
+<p><b>Price per unit:</b> ₹{{ product.price }}</p>
+<p><b>Total Amount:</b> ₹{{ booking.total }}</p>
+<p><b>Alternate Mobile:</b> {{ booking.alt_mobile }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button class="btn back" type="button" onclick="window.history.back()">Back</button>
+    <button class="btn confirm" type="submit">Confirm Booking</button>
+</form>
+</div>
+
+</body>
+</html>

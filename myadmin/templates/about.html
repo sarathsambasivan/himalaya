@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About – Himalaya Hair Oil</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #ffffff 0%, #d9f5db 100%);
+      color: #2f4f2f;
+    }
+
+    /* Header */
+    header {
+      background-color: #2fbf71;
+      color: #ffffff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    .logo {
+      height: 100px;
+    }
+
+    /* Navigation */
+    nav {
+      background-color: #27a35f;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 15px 25px;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      background-color: #1e804c;
+    }
+
+    nav a.active {
+      background-color: #1e804c;
+      border-radius: 5px;
+    }
+
+    /* About Section */
+    .about {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .about h2 {
+      font-size: 2em;
+      color: #1e804c;
+      margin-bottom: 20px;
+    }
+
+    .about p {
+      font-size: 1.1em;
+      line-height: 1.8em;
+      margin-bottom: 30px;
+    }
+
+    .about img {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    footer {
+      background-color: #2fbf71;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Himalaya Hair Oil</h1>
+    <img src="{% static 'image/logo.png' %}" alt="Himalaya Logo" class="logo">
+  </header>
+
+<nav>
+    <a href="/" >Home</a>
+    <a href="{% url 'benefits' %}">Benefits</a>
+      <a href="{% url 'login' %}">Login</a>
+<!--      <a href="{% url 'products' %}">products</a>-->
+<!--      <a href="{% url 'product_booking' %}">Product Booking</a>-->
+      <a href="{% url 'about' %}" class="active">About</a>
+    <a href="{% url 'contactus' %}">Contact</a>
+  </nav>
+
+  <section class="about">
+    <h2>About Himalaya Hair Oil</h2>
+    <p>
+      Himalaya Hair Oil is a natural blend of premium herbal extracts and nourishing oils 
+      designed to strengthen, revitalize, and restore your hair’s natural beauty. 
+      Our formula, enriched with Aloe Vera and essential vitamins, deeply penetrates 
+      the scalp to promote healthy growth and shine. 
+    </p>
+    <p>
+      We are committed to using only 100% natural, sustainably sourced ingredients. 
+      Every bottle is free from parabens, sulfates, and harsh chemicals — 
+      ensuring the best care for your hair and for nature.
+    </p>
+    <img src="{% static 'image/hair_oil.png' %}" alt="About Himalaya Hair Oil">
+  </section>
+
+  <footer>
+    &copy; 2025 Himalaya Hair Oil | All rights reserved.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact – Himalaya Hair Oil</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #ffffff 0%, #d9f5db 100%);
+      color: #2f4f2f;
+    }
+
+    /* Header */
+    header {
+      background-color: #2fbf71;
+      color: #ffffff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    .logo {
+      height: 100px;
+    }
+
+    /* Navigation */
+    nav {
+      background-color: #27a35f;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 15px 25px;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      background-color: #1e804c;
+    }
+
+    nav a.active {
+      background-color: #1e804c;
+      border-radius: 5px;
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 50px 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .contact h2 {
+      text-align: center;
+      color: #1e804c;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .contact p {
+      text-align: center;
+      font-size: 1.1em;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background: #ffffff;
+      border: 1px solid #c5ebc5;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #2f4f2f;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1px solid #c5ebc5;
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      display: block;
+      margin-top: 20px;
+      background-color: #27a35f;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1e804c;
+    }
+
+    footer {
+      background-color: #2fbf71;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Himalaya Hair Oil</h1>
+    <img src="{% static 'image/logo.png' %}" alt="Himalaya Logo" class="logo">
+  </header>
+
+<nav>
+    <a href="/" >Home</a>
+    <a href="{% url 'benefits' %}" class="active">Benefits</a>
+      <a href="{% url 'signup' %}">Sign Up</a>
+      <a href="{% url 'products' %}">products</a>
+      <a href="{% url 'product_booking' %}">Product Booking</a>
+      <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contactus' %}">Contact</a>
+  </nav>
+
+  <section class="contact">
+    <h2>Contact Us</h2>
+    <p>We’d love to hear from you! Please fill out the form below and we’ll get back to you as soon as possible.</p>
+    <form action="#" method="post">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Write your message..." required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 Himalaya Hair Oil | All rights reserved.
+  </footer>
+</body>
+</html>

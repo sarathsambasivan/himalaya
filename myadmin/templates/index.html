@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Himalaya Hair Oil</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #ffffff 0%, #d9f5db 100%);
+      color: #2f4f2f;
+    }
+
+    /* Header & Logo */
+    header {
+      background-color: #2fbf71;
+      color: #ffffff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    .logo {
+      height: 100px;
+    }
+
+    nav {
+      background-color: #27a35f;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 15px 25px;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      background-color: #1e804c;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(to right, #ffffff, #d9f5db);
+    }
+
+    .hero-text {
+      flex: 1 1 350px;
+      padding: 20px;
+    }
+
+    .hero-text h2 {
+      color: #1e804c;
+      font-size: 2.2em;
+      margin-bottom: 15px;
+    }
+
+    .hero-text p {
+      font-size: 1.1em;
+      color: #2f4f2f;
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      background-color: #27a35f;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .cta-button:hover {
+      background-color: #1e804c;
+    }
+
+    .hero-image {
+      flex: 1 1 350px;
+      padding: 20px;
+    }
+
+    .hero-image img {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Features Section */
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #c5ebc5;
+      border-radius: 10px;
+      width: 300px;
+      margin: 15px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      padding: 20px;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .card h3 {
+      color: #27a35f;
+      margin-top: 15px;
+    }
+
+    .card p {
+      color: #2f4f2f;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+
+    /* Additional Section */
+    .benefits {
+      text-align: center;
+      padding: 50px 20px;
+      background: #e0f5e0;
+    }
+
+    .benefits h2 {
+      color: #1e804c;
+      font-size: 2em;
+      margin-bottom: 25px;
+    }
+
+    .benefits ul {
+      list-style: none;
+      padding: 0;
+      font-size: 1.1em;
+    }
+
+    .benefits ul li {
+      margin-bottom: 15px;
+      position: relative;
+      
+    }
+
+  
+
+    footer {
+      background-color: #2fbf71;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+    }
+	
+	nav a.active {
+    background-color: #1e804c; /* highlight color */
+    color: #ffffff;
+    border-radius: 5px;
+  }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Himalaya Hair Oil</h1>
+    <img src="{% static 'image/logo.png' %}" alt="Himalaya Logo" class="logo">
+  </header>
+
+  <nav>
+    <a href="/" class="active">Home</a>
+    <a href="{% url 'benefits' %}">Benefits</a>
+      <a href="{% url 'login_view' %}">Login</a>
+      <a href="{% url 'products' %}">products</a>
+      <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contactus' %}">Contact</a>
+
+  </nav>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h2>Nature’s Goodness for Your Hair</h2>
+      <p>Our Himalaya Hair Oil is infused with 100% natural oils and aloe vera to nourish, strengthen and revitalize your hair.</p>
+
+    </div>
+    <div class="hero-image">
+      <img src="{% static 'image/hair_oil.png' %}" alt="Aloe Vera">
+    </div>
+  </section>
+
+  <section class="content">
+    <div class="card">
+
+      <h3>Natural Ingredients</h3>
+      <p>Rich in herbal extracts and natural oils, free from parabens and sulfates.</p>
+    </div>
+    <div class="card">
+
+      <h3>Healthy Scalp</h3>
+      <p>Improves scalp circulation and reduces dryness for stronger roots.</p>
+    </div>
+    <div class="card">
+
+      <h3>Shiny Hair</h3>
+      <p>Adds natural shine and softness, leaving hair manageable and silky.</p>
+    </div>
+  </section>
+
+  <section class="benefits">
+    <h2>Why Choose Himalaya Hair Oil?</h2>
+    <ul>
+      <li>100% natural ingredients for healthy hair</li>
+      <li>Enriched with aloe vera for deep nourishment</li>
+      <li>Strengthens hair from roots to tips</li>
+      <li>Reduces hair fall and dryness</li>
+      <li>Leaves hair soft, shiny, and manageable</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 Himalaya Hair Oil | All rights reserved.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Razorpay Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+    <h2>Processing Payment of ₹{{ amount }}</h2>
+
+    <button id="rzp-button1">Pay Now</button>
+
+    <script>
+        var options = {
+            "key": "{{ razorpay_key }}",
+            "amount": {{ amount }} * 100,
+            "currency": "INR",
+            "name": "Himalaya Herbal Oil",
+            "description": "Booking Payment",
+            "order_id": "{{ order_id }}",
+            "handler": function (response) {
+                // Payment successful — now call booking_payment to save DB record
+                fetch("{{ success_url }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    body: "payment_method=card"
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        alert("Payment saved successfully!");
+                        window.location.href="{% url 'payment_success' %}"
+                    }
+                })
+                .catch(error => {
+                    alert("Something went wrong saving the payment!");
+                    console.error(error);
+                });
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+        document.getElementById("rzp-button1").onclick = function(e) {
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+</body>
+</html>

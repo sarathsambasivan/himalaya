@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer Dashboard – Himalaya Hair Oil</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f8;
+      color: #2f4f2f;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #2fbf71;
+      color: #ffffff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    .logo {
+      height: 80px;
+    }
+
+    .dashboard-container {
+      display: flex;
+      flex: 1;
+      min-height: calc(100vh - 140px);
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #2b7a78;
+      color: #fff;
+      padding: 20px;
+      flex-shrink: 0;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+      font-size: 1.5em;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-weight: bold;
+    }
+
+    .sidebar a:hover {
+      background-color: #3aafa9;
+      padding-left: 10px;
+      transition: 0.3s;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      background-color: #e0f5e0;
+    }
+
+    .dashboard-header {
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .card h3 {
+      color: #27a35f;
+      margin-bottom: 15px;
+    }
+
+    .card p {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    footer {
+      background-color: #2fbf71;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        text-align: center;
+      }
+
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Flash message alert -->
+  {% if messages %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      {% for message in messages %}
+        alert("{{ message|escapejs }}");
+      {% endfor %}
+    });
+  </script>
+  {% endif %}
+
+  <!-- Header -->
+  <header>
+    <h1>Himalaya Hair Oil</h1>
+    <img src="{% static 'image/logo.png' %}" alt="Himalaya Logo" class="logo" />
+  </header>
+
+  <!-- Dashboard Layout -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Customer Panel</h2>
+      <a href="#">Dashboard</a>
+      <a href="{% url 'products' %}">Browse Products</a>
+      <a href="{% url 'product_booking' %}">My Orders</a>
+      <a href="{% url 'contactus' %}">Contact Support</a>
+      <a href="{% url 'admin_logout' %}">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <div class="dashboard-header">
+        <h2>Welcome, {{ customer.first_name }}!</h2>
+      </div>
+
+      <div class="card">
+        <h3>Your Profile Details</h3>
+        <p><strong>Full Name:</strong> {{ customer.first_name }} {{ customer.last_name }}</p>
+        <p><strong>Email:</strong> {{ customer.email }}</p>
+        <p><strong>Phone:</strong> {{ customer.phone }}</p>
+        <p><strong>Age:</strong> {{ customer.age }}</p>
+        <p><strong>Address:</strong> {{ customer.address }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Himalaya Hair Oil | All rights reserved.
+  </footer>
+</body>
+</html>
