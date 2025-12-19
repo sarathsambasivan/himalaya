@@ -6,148 +6,195 @@
   <title>Our Products – Himalaya Hair Oil</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom, #ffffff 0%, #d9f5db 100%);
-      color: #2f4f2f;
-    }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom, #ffffff 0%, #d9f5db 100%);
+  color: #2f4f2f;
+}
 
-    header {
-      background-color: #2fbf71;
-      color: #ffffff;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+/* Header */
+header {
+  background-color: #2fbf71;
+  color: #ffffff;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 2em;
-    }
+header h1 {
+  margin: 0;
+  font-size: 2em;
+}
 
-    .logo {
-      height: 100px;
-    }
+.logo {
+  height: 100px;
+}
 
-    nav {
-      background-color: #27a35f;
-      display: flex;
-      justify-content: center;
-    }
+/* Navigation */
+nav {
+  background-color: #27a35f;
+  padding: 10px;
+  position: relative;
+}
 
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      padding: 15px 25px;
-      display: inline-block;
-      font-weight: bold;
-    }
+nav .menu-items {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
-    nav a:hover {
-      background-color: #1e804c;
-    }
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 15px 25px;
+  display: inline-block;
+  font-weight: bold;
+}
 
-    nav a.active {
-      background-color: #1e804c;
-      border-radius: 5px;
-    }
+nav a:hover,
+nav a.active {
+  background-color: #1e804c;
+  border-radius: 5px;
+}
 
-    .product-section {
-      padding: 50px 20px;
-      max-width: 1200px;
-      margin: auto;
-    }
+/* Hamburger Icon */
+.menu-toggle {
+  display: none;
+  font-size: 32px;
+  color: white;
+  cursor: pointer;
+}
 
-    .product-section h2 {
-      text-align: center;
-      color: #1e804c;
-      font-size: 2em;
-      margin-bottom: 40px;
-    }
+/* ================= MOBILE MENU ================= */
+@media (max-width: 768px) {
+  /* Show hamburger icon */
+  .menu-toggle {
+    display: block;
+    padding: 10px;
+  }
 
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
+  /* Hide menu on mobile */
+  nav .menu-items {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    background: #27a35f;
+    padding-bottom: 10px;
+  }
 
-    .product-card {
-      background-color: #ffffff;
-      border: 1px solid #c5ebc5;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-      text-align: center;
-      transition: transform 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+  nav .menu-items a {
+    border-bottom: 1px solid #1e804c;
+    padding: 12px;
+  }
 
-    .product-card:hover {
-      transform: translateY(-5px);
-    }
+  /* Show on menu toggle */
+  nav .menu-items.active {
+    display: flex;
+  }
+}
 
-    .product-card img {
-      display: block;
-      margin: 0 auto;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
+/* Product Section */
+.product-section {
+  padding: 50px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
 
-    .product-card h3 {
-      margin: 10px 0;
-      font-size: 1.2em;
-      color: #2f4f2f;
-    }
+.product-section h2 {
+  text-align: center;
+  color: #1e804c;
+  font-size: 2em;
+  margin-bottom: 40px;
+}
 
-    .product-card p {
-      font-size: 0.95em;
-      color: #555;
-      min-height: 60px;
-    }
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
 
-    .product-card .price {
-      color: #27a35f;
-      font-weight: bold;
-      margin: 15px 0;
-    }
+.product-card {
+  background-color: #ffffff;
+  border: 1px solid #c5ebc5;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-    .product-card .buy-btn {
-      background-color: #27a35f;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      font-weight: bold;
-      display: inline-block;
-    }
+.product-card:hover {
+  transform: translateY(-5px);
+}
 
-    .product-card .buy-btn:hover {
-      background-color: #1e804c;
-    }
+.product-card img {
+  display: block;
+  margin: 0 auto;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
 
-    .no-products {
-      text-align: center;
-      font-size: 18px;
-      color: #777;
-      margin-top: 50px;
-    }
+.product-card h3 {
+  margin: 10px 0;
+  font-size: 1.2em;
+  color: #2f4f2f;
+}
 
-    footer {
-      background-color: #2fbf71;
-      color: #ffffff;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      margin-top: 40px;
-    }
+.product-card p {
+  font-size: 0.95em;
+  color: #555;
+  min-height: 60px;
+}
+
+.product-card .price {
+  color: #27a35f;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.product-card .buy-btn {
+  background-color: #27a35f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.product-card .buy-btn:hover {
+  background-color: #1e804c;
+}
+
+/* No product message */
+.no-products {
+  text-align: center;
+  font-size: 18px;
+  color: #777;
+  margin-top: 50px;
+}
+
+/* Footer */
+footer {
+  background-color: #2fbf71;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9em;
+  margin-top: 40px;
+}
+
   </style>
 </head>
 <body>
@@ -157,13 +204,18 @@
   </header>
 
   <nav>
+        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+
+  <div class="menu-items">
     <a href="/">Home</a>
+      <a href="{% url 'login_view' %}">Login</a>
     <a href="{% url 'benefits' %}">Benefits</a>
-    <a href="{% url 'signup' %}">Sign Up</a>
+
     <a href="{% url 'products' %}" class="active">Products</a>
 
     <a href="{% url 'about' %}">About</a>
     <a href="{% url 'contactus' %}">Contact</a>
+      </div>
   </nav>
 
   <section class="product-section">
@@ -193,5 +245,11 @@
   <footer>
     &copy; 2025 Himalaya Hair Oil | All rights reserved.
   </footer>
+<!-- HAMBURGER MENU SCRIPT -->
+<script>
+function toggleMenu() {
+    document.querySelector(".menu-items").classList.toggle("active");
+}
+</script>
 </body>
 </html>
